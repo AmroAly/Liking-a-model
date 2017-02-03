@@ -20,17 +20,13 @@ class LikeTest extends TestCase
     /** @test */
     public function a_user_can_like_a_post()
     {
-    	// and a user
-    	$user = factory(App\User::class)->create();
-    	
-    	// and that user is logged in
-    	$this->actingAs($user);
+    	$this->signIn();
     	
     	// when they like a post
     	$this->post->like();
     	// then we should see evidence in the database
     	$this->seeInDatabase('likes', [
-    		'user_id' => $user->id,
+    		'user_id' => $this->user->id,
     		'likeable_id' => $this->post->id,
     		'likeable_type'	=> get_class($this->post)
     	]);
